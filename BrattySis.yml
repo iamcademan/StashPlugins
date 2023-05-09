@@ -1,0 +1,40 @@
+name: "BrattySis"
+sceneByURL:
+  - action: scrapeXPath
+    url:
+      - https://brattysisters.com/
+    scraper: sceneScraper
+xPathScrapers:
+  sceneScraper:
+    common:
+      $info: = "Bratty Sis"
+    scene:
+      Title: //h1[@class="entry-title"]
+      Date:
+        selector: //header[@class="entry-header"]/div[@class="entry-meta"]/span[@class="date"]
+        postProcess:
+          - parseDate: January 2, 2006
+      Details: //div[@class="entry-content"]//p[2]
+      Performers:
+        Name:
+          selector: //span[@class="ytet"]//a[@rel="category tag"]
+      Tags:
+        Name:
+          selector: //ul[@class="post-tags"]//li//a[@rel="tag"]
+      Image:
+        selector: //div[@class="entry-content"]//p[1]//video[@poster]
+        postProcess:
+          - replace:
+              - regex: /./.
+                with: "https://brattysisters.com/"
+      Studio:
+        Name: 
+          selector: //div[@class="left-text"]
+          postProcess:
+            - replace:
+                - regex: Copyright.+?\d\d\d\d
+                  with: ""
+                - regex: " /.+"
+                  with: ""
+
+# Last Updated May 5, 2023
